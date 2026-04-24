@@ -1,13 +1,29 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Rule 13: Pictures near text */
+.prose-e2r img {
+    margin: 2rem 0;
+    display: block;
+    max-width: 100%;
+    border-radius: 12px;
+    background: transparent;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Rule 15 & 18: Layout and Spacing */
+.prose-e2r p {
+    margin-bottom: 1.8rem;
+    /* Creates the "one line gap" between paragraphs */
+    text-align: left !important;
+}
+
+/* Rule 21: Consistent style - prevents bold/italic from Word artifacts */
+.prose-e2r b,
+.prose-e2r strong,
+.prose-e2r i,
+.prose-e2r em {
+    font-weight: normal !important;
+    font-style: normal !important;
 }
