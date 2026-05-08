@@ -147,52 +147,39 @@ export default function HomePage() {
     const onDragLeave = () => setDragOver(false);
 
     // ── Conversion ───────────────────────────────────────────────────────────────
+
     const handleConvert = async () => {
-        // Check if we have content based on the active mode
         const hasContent = inputMode === "file" ? !!file : pastedText.trim().length > 0;
         if (!hasContent) return;
 
         setLoading(true);
         setResults([]);
-        setProgress({ done: 0, total: 0 });
 
         try {
-            // Source selection
             const raw = inputMode === "file"
                 ? await extractText(file)
                 : pastedText;
 
             const paragraphs = splitParagraphs(raw);
-            setProgress({ done: 0, total: paragraphs.length });
 
-            const output = [];
-            for (let i = 0; i < paragraphs.length; i++) {
-                const paragraphText = paragraphs[i];
-                const sentences = splitSentences(paragraphText);
+            const simplified = await callE2RBatch(paragraphs);
 
-                const simplifiedSentences = await Promise.all(
-                    sentences.map(async (s) => {
-                        const r = await callE2R(s);
-                        return r.simplified;
-                    })
-                );
-
-                output.push({
-                    id: i + 1,
-                    text: simplifiedSentences.join(" "),
-                    imageUrl: null
-                });
-                setProgress((p) => ({ ...p, done: i + 1, total: paragraphs.length }));
-            }
+            const output = simplified.map((text, i) => ({
+                id: i + 1,
+                text: text || paragraphs[i],
+                imageUrl: null
+            }));
 
             setResults(output);
             setShowModal(true);
+
         } catch (err) {
             console.error("Conversion error:", err);
         } finally {
             setLoading(false);
         }
     };
+
     // ── Export ────────────────────────────────────────────────────────────────────
     const exportFile = () => {
         const text = results.map((r) => r.text).join("\n\n");
@@ -252,8 +239,8 @@ export default function HomePage() {
                 <button
                     onClick={() => setInputMode("file")}
                     className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${inputMode === "file"
-                            ? "bg-white dark:bg-zinc-800 shadow-sm dark:text-white text-zinc-900"
-                            : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                        ? "bg-white dark:bg-zinc-800 shadow-sm dark:text-white text-zinc-900"
+                        : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
                         }`}
                 >
                     Upload File
@@ -261,8 +248,8 @@ export default function HomePage() {
                 <button
                     onClick={() => setInputMode("text")}
                     className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${inputMode === "text"
-                            ? "bg-white dark:bg-zinc-800 shadow-sm dark:text-white text-zinc-900"
-                            : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                        ? "bg-white dark:bg-zinc-800 shadow-sm dark:text-white text-zinc-900"
+                        : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
                         }`}
                 >
                     Paste Text

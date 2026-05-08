@@ -21,7 +21,7 @@ export default function LoginPage({ onLogin }) {
           <img
             src={logo}  // Use the imported logo here
             alt="SINHALEASY Logo"
-            className="h-8 w-auto object-contain"
+            className="h-14 w-auto object-contain"
           />
         </div>
 

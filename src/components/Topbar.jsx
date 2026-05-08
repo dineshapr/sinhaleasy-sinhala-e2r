@@ -20,7 +20,7 @@ export default function Topbar({ currentPage, setPage }) {
         <img
           src={logo}
           alt="SINHALEASY"
-          className="h-8 w-auto"
+          className="h-14 w-auto"
         />
         {/* <span className="font-bold tracking-tight text-lg hidden sm:block">
           SINHALEASY
