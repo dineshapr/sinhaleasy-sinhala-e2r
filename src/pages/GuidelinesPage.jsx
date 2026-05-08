@@ -7,7 +7,9 @@ export default function GuidelinesPage() {
   const GuidelineCard = ({ item }) => (
     <div className="dark:bg-zinc-900 bg-white border dark:border-zinc-800 border-zinc-200 p-5 rounded-xl transition-all duration-200 shadow-sm">
       <h3 className="dark:text-zinc-100 text-zinc-900 font-semibold mb-2">{item.rule}</h3>
-      <p className="dark:text-zinc-400 text-zinc-600 text-sm leading-relaxed">{item.desc}</p>
+      <p className="dark:text-zinc-400 text-zinc-600 text-sm leading-relaxed">{item.desc.en}</p>
+      <p className="dark:text-zinc-400 text-zinc-600 text-sm leading-relaxed">{item.desc.si}</p>
+      <p className="dark:text-zinc-400 text-zinc-600 text-sm leading-relaxed">{item.desc.ta}</p>
     </div>
   );
 
